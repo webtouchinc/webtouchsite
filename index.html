@@ -1,0 +1,402 @@
+<!--tu peux tjrs add les film jai slmt do comsa pour la video*/-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebTouch Films</title>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: #00bfa5;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 50%;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #00bfa5;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #008573;
+        }
+
+        .content {
+            margin-top: 120px;
+            padding: 20px;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .filters select {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .filters select:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .film-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .film-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .film-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .film-item:hover img {
+            filter: brightness(1);
+            transform: scale(1.05);
+        }
+
+        .film-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00bfa5;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .bubble, .star, .circle, .cat, .icecream, .popcorn {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: move 10s infinite ease-in-out;
+        }
+
+        .bubble {
+            animation-duration: 20s;
+            border-radius: 50%;
+        }
+
+        .star {
+            width: 6px;
+            height: 6px;
+            border-radius: 0%;
+            animation-duration: 15s;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .circle {
+            width: 70px;
+            height: 70px;
+            animation-duration: 20s;
+        }
+
+        .cat {
+            width: 100px;
+            height: 100px;
+            background-image: url('cat.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation-duration: 25s;
+        }
+
+        .icecream {
+            width: 80px;
+            height: 80px;
+            background-image: url('icecream.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation-duration: 22s;
+        }
+
+        .popcorn {
+            width: 60px;
+            height: 60px;
+            background-image: url('popcorn.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation-duration: 18s;
+        }
+
+        /* Positions for bubbles */
+        .bubble:nth-child(1) { width: 80px; height: 80px; bottom: 20%; left: 10%; }
+        .bubble:nth-child(2) { width: 120px; height: 120px; bottom: 30%; left: 50%; }
+        .bubble:nth-child(3) { width: 150px; height: 150px; bottom: 10%; left: 80%; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; bottom: 60%; left: 30%; }
+        .bubble:nth-child(5) { width: 50px; height: 50px; bottom: 80%; left: 20%; }
+        .bubble:nth-child(6) { width: 70px; height: 70px; bottom: 90%; left: 60%; }
+
+        /* Positions for stars */
+        .star:nth-child(7) { bottom: 50%; left: 15%; }
+        .star:nth-child(8) { bottom: 40%; left: 70%; }
+        .star:nth-child(9) { bottom: 10%; left: 40%; }
+        .star:nth-child(10) { bottom: 20%; left: 90%; }
+
+        /* Positions for circles */
+        .circle:nth-child(11) { bottom: 20%; left: 25%; }
+        .circle:nth-child(12) { bottom: 35%; left: 75%; }
+
+        /* Positions for cats */
+        .cat:nth-child(13) { bottom: 45%; left: 15%; }
+        .cat:nth-child(14) { bottom: 70%; left: 55%; }
+
+        /* Positions for ice creams */
+        .icecream:nth-child(15) { bottom: 25%; left: 5%; }
+        .icecream:nth-child(16) { bottom: 50%; left: 65%; }
+
+        /* Positions for popcorn */
+        .popcorn:nth-child(17) { bottom: 30%; left: 35%; }
+        .popcorn:nth-child(18) { bottom: 85%; left: 15%; }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-50px) translateX(20px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        .thunder {
+            position: absolute;
+            background: linear-gradient(45deg, transparent, #fff, transparent);
+            width: 4px;
+            height: 200px;
+            top: -40px;
+            left: 50%;
+            opacity: 0.4;
+            animation: flash 2s infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes flash {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+            margin-top: 40px;
+            color: #00bfa5;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="logo1.jpg" alt="WebTouch Films Logo">
+        <h1>WebTouch Films</h1>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search films...">
+        <button>🔍</button>
+    </div>
+</header>
+
+<div class="content">
+    <h2 style="font-family: 'Orbitron', sans-serif; 
+            font-size: 28px; 
+            text-align: center; 
+            color: #00bfa5; 
+            text-shadow: 0px 0px 5px #00bfa5; 
+            background: linear-gradient(to right, #1db954, #1ed760); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;">
+    Watch and Download Films for Free Now
+</h2>
+    <div class="filters">
+        <select>
+            <option>All Genres</option>
+            <option>Action</option>
+            <option>Drama</option>
+            <option>Comedy</option>
+            <option>Horror</option>
+        </select>
+        <select>
+            <option>All Years</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+        </select>
+    </div>
+
+    <div class="film-list">
+        <div class="film-item">
+            <img src="13.gif" alt="Film 1">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="12.gif" alt="Film 2">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="11.gif" alt="Film 3">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="10.gif" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="14.gif" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="3.jpeg" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="7.jpeg" alt="Film 4">
+            <div class="film-title">Film Title 4</div>
+        </div>
+        <div class="film-item">
+            <img src="16.gif" alt="Film 4">
+            <div class="film-title">Film Title 4</div>
+        </div>
+        <div class="film-item">
+            <img src="17.gif" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="15.gif" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="9.jpeg" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+        <div class="film-item">
+            <img src="8.gif" alt="Film 4">
+            <div class="film-title">Watch Now!!!</div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="cat"></div>
+<div class="cat"></div>
+<div class="icecream"></div>
+<div class="icecream"></div>
+<div class="popcorn"></div>
+<div class="popcorn"></div>
+<div class="thunder"></div>
+
+<footer>
+    <p>&copy; 2024 WebTouch Films. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
